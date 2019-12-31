@@ -1,0 +1,23 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'plan/style.css' %}" />
+
+<h1>车站列表</h1>
+<table>
+  <tr>
+    <td>车站名称</td>
+    <td>车站名缩写</td>
+    <td>车站电码编号</td>
+    <td>车站数字编号</td>
+  </tr>
+  {% for station in station_list.all %}
+  <tr>
+    <td>{{ station.station_name }}</td>
+    <td>{{ station.station_abbr }}</td>
+    <td>{{ station.station_telecode }}</td>
+    <td>{{ station.station_no }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<button><a href="{% url 'update:update' %}">初始化数据</a></button>
