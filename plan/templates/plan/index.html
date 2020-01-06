@@ -15,12 +15,12 @@
   <div class="layui-row">
     <div class="layui-col-md1 layui-col-md-offset11">
       <button class="layui-btn layui-btn-danger">
-        <a href="{% url 'update:update' %}">初始化数据</a>
+        <a href="{% url 'update:update' %}">同步数据</a>
       </button>
     </div>
   </div>
 
-  <form class="layui-form" action="" id="form-box">
+  <form class="layui-form" action="" id="form-box" method="POST">
     <h2>车票信息</h2>
     <div class="layui-form-item">
       <div class="layui-inline">
@@ -94,7 +94,7 @@
       <div class="layui-inline">
         <label class="layui-form-label">其他</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="O" lay-skin="switch" />
+          <input type="checkbox" name="O" lay-skin="switch" />
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
       <div class="layui-inline">
         <label class="layui-form-label">商务座/特等座</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat1" lay-skin="switch" />
+          <input type="checkbox" name="seat1" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
@@ -158,7 +158,7 @@
       <div class="layui-inline">
         <label class="layui-form-label">无座</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat10" lay-skin="switch" />
+          <input type="checkbox" name="seat10" lay-skin="switch" />
         </div>
       </div>
     </div>
@@ -172,19 +172,34 @@
 </div>
 
 <script>
-  layui.use("laydate", () => {
+  layui.use(["form", "laydate"], () => {
     const laydate = layui.laydate;
+    const form = layui.form;
 
     laydate.render({
       elem: "#data-check",
       min: 0,
       max: 29
     });
-  });
-  layui.use("form", () => {
-    const form = layui.form;
+
     form.on("submit(formDemo)", function(data) {
-      console.error(data.field);
+      const dataTmp = data.field;
+      const dataSub = {
+        from: dataTmp.from,
+        to: dataTmp.to,
+        date: dataTmp.date
+      };
+      const linkTypes = [];
+      const seatTypes = [];
+      Object.keys(dataTmp).forEach(key => {
+        if (/^seat\d{1,2}$/.test(key) && dataTmp[key] === "on") {
+          seatTypes.push(key);
+        } else if (/^[A-Z]{1,2}$/.test(key) && dataTmp[key] === "on") {
+          linkTypes.push(key);
+        }
+      });
+      console.log(linkTypes);
+      console.log(seatTypes);
       return false;
     });
   });
