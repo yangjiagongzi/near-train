@@ -1,4 +1,4 @@
-from plan.models import Station, Train
+from plan.models import Station, Train, FromStation, ToStation
 from urllib.request import urlretrieve
 import os
 import re
@@ -31,6 +31,7 @@ def init_stations():
 
     Station.objects.all().delete()
 
+    stationlist = []
     strTmp = ''
 
     for part in readPart(station_name_data_path):
@@ -49,15 +50,17 @@ def init_stations():
         obj_list = []
         for data in dataList:
             station_data = data.split('|')
-            obj_list.append(Station(
-                station_name=station_data[1],
-                station_telecode=station_data[2],
-                station_abbr=station_data[0],
-                station_no=station_data[5],
-                ch_pinyin=station_data[3],
-                simp_pinyin=station_data[4],
-                origin_info=data
-            ))
+            if station_data[1] not in stationlist:
+                stationlist.append(station_data[1])
+                obj_list.append(Station(
+                    station_name=station_data[1],
+                    station_telecode=station_data[2],
+                    station_abbr=station_data[0],
+                    station_no=station_data[5],
+                    ch_pinyin=station_data[3],
+                    simp_pinyin=station_data[4],
+                    origin_info=data
+                ))
         Station.objects.bulk_create(obj_list)
 
     if len(strTmp) != 0 and not strTmp.isspace():
@@ -76,6 +79,18 @@ def init_stations():
         last_data.save()
 
 
+def init_from_stations(stations):
+    FromStation.objects.all().delete()
+    station_list = Station.objects.filter(station_name__in=stations)
+    FromStation.objects.bulk_create(station_list)
+
+
+def init_to_stations(stations):
+    ToStation.objects.all().delete()
+    station_list = Station.objects.filter(station_name__in=stations)
+    ToStation.objects.bulk_create(station_list)
+
+
 def init_trains():
     dir = os.path.abspath('./tmp')
     train_list_data_path = os.path.join(dir, 'train-list.txt')
@@ -85,6 +100,9 @@ def init_trains():
 
     strTmp = ''
     deDup = ''
+
+    from_stations = []
+    to_stations = []
 
     for part in readPart(train_list_data_path, 1024*512):
         dataList = []
@@ -106,6 +124,12 @@ def init_trains():
                         from_station = analysis.group(2)
                         to_station = analysis.group(3)
 
+                        if from_station not in from_stations:
+                            from_stations.append(from_station)
+
+                        if to_station not in to_stations:
+                            to_stations.append(to_station)
+
                         deDup = deDup + '|' + train_no
                         dataList.append(Train(
                             station_train_code='{train_sn}({from_station}-{to_station})'.format(train_sn=train_sn,
@@ -123,3 +147,6 @@ def init_trains():
 
         if len(dataList):
             Train.objects.bulk_create(dataList)
+
+    init_from_stations(from_stations)
+    init_to_stations(to_stations)

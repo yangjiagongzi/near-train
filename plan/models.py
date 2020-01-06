@@ -2,7 +2,27 @@ from django.db import models
 
 
 class Station(models.Model):
-    station_name = models.CharField(max_length=100)
+    station_name = models.CharField(max_length=100, primary_key=True)
+    station_telecode = models.CharField(max_length=100)
+    station_abbr = models.CharField(max_length=100)
+    station_no = models.IntegerField()
+    ch_pinyin = models.CharField(max_length=100)
+    simp_pinyin = models.CharField(max_length=100)
+    origin_info = models.CharField(max_length=200)
+
+
+class FromStation(models.Model):
+    station_name = models.CharField(max_length=100, primary_key=True)
+    station_telecode = models.CharField(max_length=100)
+    station_abbr = models.CharField(max_length=100)
+    station_no = models.IntegerField()
+    ch_pinyin = models.CharField(max_length=100)
+    simp_pinyin = models.CharField(max_length=100)
+    origin_info = models.CharField(max_length=200)
+
+
+class ToStation(models.Model):
+    station_name = models.CharField(max_length=100, primary_key=True)
     station_telecode = models.CharField(max_length=100)
     station_abbr = models.CharField(max_length=100)
     station_no = models.IntegerField()
