@@ -1,3 +1,22 @@
-tr {
-  color: green;
+html,
+body,
+#box {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#box {
+  padding: 100px;
+  box-sizing: border-box;
+}
+
+h2 {
+  color: rgb(14, 226, 233);
+  padding: 10px 0 !important;
+}
+
+.layui-inline {
+  vertical-align: top !important;
 }

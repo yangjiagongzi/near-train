@@ -1,23 +1,191 @@
+<title>train plan</title>
 {% load static %}
-
 <link rel="stylesheet" type="text/css" href="{% static 'plan/style.css' %}" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'plan/layui/css/layui.css' %}"
+/>
+<script
+  type="text/javascript"
+  src="{% static 'plan/layui/layui.js' %}"
+></script>
 
-<h1>车站列表</h1>
-<table>
-  <tr>
-    <td>车站名称</td>
-    <td>车站名缩写</td>
-    <td>车站电码编号</td>
-    <td>车站数字编号</td>
-  </tr>
-  {% for station in station_list.all %}
-  <tr>
-    <td>{{ station.station_name }}</td>
-    <td>{{ station.station_abbr }}</td>
-    <td>{{ station.station_telecode }}</td>
-    <td>{{ station.station_no }}</td>
-  </tr>
-  {% endfor %}
-</table>
+<div id="box" class="layui-bg-black">
+  <div class="layui-row">
+    <div class="layui-col-md1 layui-col-md-offset11">
+      <button class="layui-btn layui-btn-danger">
+        <a href="{% url 'update:update' %}">初始化数据</a>
+      </button>
+    </div>
+  </div>
 
-<button><a href="{% url 'update:update' %}">初始化数据</a></button>
+  <form class="layui-form" action="" id="form-box">
+    <h2>车票信息</h2>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">出发地</label>
+        <div class="layui-input-inline">
+          <select name="from" lay-verify="required">
+            <option value="">请选择一个城市</option>
+            <option value="010">北京</option>
+            <option value="021">上海</option>
+            <option value="0571">杭州</option>
+          </select>
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">目的地</label>
+        <div class="layui-input-inline">
+          <select name="to" lay-verify="required">
+            <option value="">请选择一个城市</option>
+            <option value="010">北京</option>
+            <option value="021">上海</option>
+            <option value="0571">杭州</option>
+          </select>
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">出发日期</label>
+        <div class="layui-input-inline">
+          <input
+            type="text"
+            name="date"
+            class="layui-input"
+            id="data-check"
+            lay-verify="required"
+          />
+        </div>
+      </div>
+    </div>
+
+    <h2>车次类型</h2>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">GC-高铁/城际</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="GC" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">D-动车</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="D" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">Z-直达</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="Z" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">T-特快</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="T" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">K-快速</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="K" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">其他</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="O" lay-skin="switch" />
+        </div>
+      </div>
+    </div>
+
+    <h2>座位类型</h2>
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">商务座/特等座</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat1" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">一等座</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat2" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">二等座/二等包座</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat3" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">高级软卧</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat4" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">软卧/一等卧</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat5" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">动卧</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat6" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">硬卧/二等卧</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat7" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">软座</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat8" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">硬座</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat9" lay-skin="switch" />
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">无座</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked name="seat10" lay-skin="switch" />
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">
+        立即查询
+      </button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  layui.use("laydate", () => {
+    const laydate = layui.laydate;
+
+    laydate.render({
+      elem: "#data-check",
+      min: 0,
+      max: 29
+    });
+  });
+  layui.use("form", () => {
+    const form = layui.form;
+    form.on("submit(formDemo)", function(data) {
+      console.error(data.field);
+      return false;
+    });
+  });
+</script>
