@@ -104,61 +104,61 @@
       <div class="layui-inline">
         <label class="layui-form-label">商务座/特等座</label>
         <div class="layui-input-block">
-          <input type="checkbox" name="seat1" lay-skin="switch" />
+          <input type="checkbox" name="seat-a" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">一等座</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat2" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-b" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">二等座/二等包座</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat3" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-c" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">高级软卧</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat4" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-d" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">软卧/一等卧</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat5" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-e" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">动卧</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat6" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-f" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">硬卧/二等卧</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat7" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-g" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">软座</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat8" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-h" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">硬座</label>
         <div class="layui-input-block">
-          <input type="checkbox" checked name="seat9" lay-skin="switch" />
+          <input type="checkbox" checked name="seat-i" lay-skin="switch" />
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">无座</label>
         <div class="layui-input-block">
-          <input type="checkbox" name="seat10" lay-skin="switch" />
+          <input type="checkbox" name="seat-j" lay-skin="switch" />
         </div>
       </div>
     </div>
@@ -192,8 +192,8 @@
       const linkTypes = [];
       const seatTypes = [];
       Object.keys(dataTmp).forEach(key => {
-        if (/^seat\d{1,2}$/.test(key) && dataTmp[key] === "on") {
-          seatTypes.push(key);
+        if (/^seat\-[a-z]$/.test(key) && dataTmp[key] === "on") {
+          seatTypes.push(key.replace("seat-", ""));
         } else if (/^[A-Z]{1,2}$/.test(key) && dataTmp[key] === "on") {
           linkTypes.push(key);
         }
