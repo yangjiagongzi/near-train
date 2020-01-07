@@ -25,24 +25,38 @@
     <div class="layui-form-item">
       <div class="layui-inline">
         <label class="layui-form-label">出发地</label>
-        <div class="layui-input-inline">
-          <select name="from" lay-verify="required">
-            <option value="">请选择一个城市</option>
-            <option value="010">北京</option>
-            <option value="021">上海</option>
-            <option value="0571">杭州</option>
-          </select>
+        <div
+          class="layui-input-inline station-select"
+          lay-filter="station-select"
+        >
+          <input
+            type="text"
+            name="出发地"
+            required
+            lay-verify="required"
+            placeholder="简拼/全拼/汉字"
+            autocomplete="off"
+            class="layui-input"
+          />
+          <div class="selectBox"></div>
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">目的地</label>
-        <div class="layui-input-inline">
-          <select name="to" lay-verify="required">
-            <option value="">请选择一个城市</option>
-            <option value="010">北京</option>
-            <option value="021">上海</option>
-            <option value="0571">杭州</option>
-          </select>
+        <div
+          class="layui-input-inline station-select"
+          lay-filter="station-select"
+        >
+          <input
+            type="text"
+            name="出发地"
+            required
+            lay-verify="required"
+            placeholder="简拼/全拼/汉字"
+            autocomplete="off"
+            class="layui-input"
+          />
+          <div class="selectBox"></div>
         </div>
       </div>
       <div class="layui-inline">
@@ -54,6 +68,7 @@
             class="layui-input"
             id="data-check"
             lay-verify="required"
+            autocomplete="off"
           />
         </div>
       </div>
@@ -163,7 +178,7 @@
       </div>
     </div>
     <div class="layui-form-item">
-      <button class="layui-btn" lay-submit lay-filter="formDemo">
+      <button class="layui-btn" lay-submit lay-filter="startFind">
         立即查询
       </button>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -172,9 +187,10 @@
 </div>
 
 <script>
-  layui.use(["form", "laydate"], () => {
+  layui.use(["form", "laydate", "jquery"], () => {
     const laydate = layui.laydate;
     const form = layui.form;
+    const $ = layui.jquery;
 
     laydate.render({
       elem: "#data-check",
@@ -182,7 +198,22 @@
       max: 29
     });
 
-    form.on("submit(formDemo)", function(data) {
+    const inputs = $(".station-select .layui-input");
+
+    inputs.on("input", e => {
+      const searchValue = e.target.value;
+
+      if (searchValue) {
+        const selectEl = $(e.target)
+          .parent()
+          .find(".selectBox");
+        selectEl.load(`/search/?name=${searchValue}`, () => {
+          form.render(null, "station-select");
+        });
+      }
+    });
+
+    form.on("submit(startFind)", function(data) {
       const dataTmp = data.field;
       const dataSub = {
         from: dataTmp.from,
@@ -198,8 +229,7 @@
           linkTypes.push(key);
         }
       });
-      console.log(linkTypes);
-      console.log(seatTypes);
+
       return false;
     });
   });

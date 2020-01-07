@@ -13,16 +13,16 @@ def index(request):
 
 
 def search(request):
-    postBody = request.body
-    search_name = json.loads(postBody)['name']
+    body = request.GET.dict()
 
-    result = {}
-    result['list'] = list()
+    search_name = body['name']
+
+    result = list()
 
     if len(search_name) != 0:
         search_list = Station.objects.filter(
             origin_info__contains=search_name).values()[0:10]
-        result['list'] = list(search_list)
+        result = list(search_list)
 
-    print(result)
-    return JsonResponse(result)
+    context = {'station_list': result}
+    return render(request, 'plan/station.html', context)

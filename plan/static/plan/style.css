@@ -20,3 +20,9 @@ h2 {
 .layui-inline {
   vertical-align: top !important;
 }
+
+.selectBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
