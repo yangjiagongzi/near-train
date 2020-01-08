@@ -25,4 +25,14 @@ h2 {
   position: absolute;
   top: 0;
   left: 0;
+  color: #000;
+}
+
+.selectBox .layui-select-title {
+  height: 0;
+  overflow: hidden;
+}
+
+.selectBox .layui-select-title .layui-edge {
+  display: none;
 }

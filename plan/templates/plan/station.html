@@ -1,6 +1,6 @@
-<select name="from" lay-verify="required">
+<select>
   <option value="">请选择一个城市</option>
   {% for station in station_list %}
-  <option value="{{station.station_telecode}}">{{station.station_name}}</option>
+  <option value="{{station.station_name}}">{{station.station_name}}</option>
   {% endfor %}
 </select>

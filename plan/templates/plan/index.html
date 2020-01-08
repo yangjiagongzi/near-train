@@ -25,38 +25,32 @@
     <div class="layui-form-item">
       <div class="layui-inline">
         <label class="layui-form-label">出发地</label>
-        <div
-          class="layui-input-inline station-select"
-          lay-filter="station-select"
-        >
+        <div class="layui-input-inline station-select">
           <input
             type="text"
-            name="出发地"
+            name="from"
             required
             lay-verify="required"
             placeholder="简拼/全拼/汉字"
             autocomplete="off"
             class="layui-input"
           />
-          <div class="selectBox"></div>
+          <div class="selectBox layui-form" lay-filter="station-select"></div>
         </div>
       </div>
       <div class="layui-inline">
         <label class="layui-form-label">目的地</label>
-        <div
-          class="layui-input-inline station-select"
-          lay-filter="station-select"
-        >
+        <div class="layui-input-inline station-select">
           <input
             type="text"
-            name="出发地"
+            name="to"
             required
             lay-verify="required"
             placeholder="简拼/全拼/汉字"
             autocomplete="off"
             class="layui-input"
           />
-          <div class="selectBox"></div>
+          <div class="selectBox layui-form" lay-filter="station-select"></div>
         </div>
       </div>
       <div class="layui-inline">
@@ -198,19 +192,33 @@
       max: 29
     });
 
+    form.on("select", function(data) {
+      const inputValue = data.value;
+      const changeInput = $(data.elem)
+        .parent()
+        .siblings("input");
+      changeInput.val(inputValue);
+    });
+
     const inputs = $(".station-select .layui-input");
 
     inputs.on("input", e => {
       const searchValue = e.target.value;
 
       if (searchValue) {
-        const selectEl = $(e.target)
-          .parent()
-          .find(".selectBox");
+        const selectEl = $(e.target).siblings(".selectBox");
         selectEl.load(`/search/?name=${searchValue}`, () => {
           form.render(null, "station-select");
+          selectEl.find("input").click();
         });
       }
+    });
+
+    inputs.on("blur", e => {
+      const selectInput = $(e.target)
+        .siblings(".selectBox")
+        .find("input");
+      $(e.target).val(selectInput.val());
     });
 
     form.on("submit(startFind)", function(data) {
@@ -229,6 +237,8 @@
           linkTypes.push(key);
         }
       });
+
+      console.log(dataSub);
 
       return false;
     });
