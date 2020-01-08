@@ -218,7 +218,9 @@
       const selectInput = $(e.target)
         .siblings(".selectBox")
         .find("input");
-      $(e.target).val(selectInput.val());
+      setTimeout(() => {
+        $(e.target).val(selectInput.val());
+      }, 200);
     });
 
     form.on("submit(startFind)", function(data) {
