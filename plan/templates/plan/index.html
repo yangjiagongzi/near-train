@@ -192,14 +192,6 @@
       max: 29
     });
 
-    form.on("select", function(data) {
-      const inputValue = data.value;
-      const changeInput = $(data.elem)
-        .parent()
-        .siblings("input");
-      changeInput.val(inputValue);
-    });
-
     const inputs = $(".station-select .layui-input");
 
     inputs.on("input", e => {
